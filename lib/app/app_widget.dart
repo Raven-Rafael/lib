@@ -28,7 +28,7 @@ class AppWidget extends StatelessWidget {
         ),
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
           selectedItemColor: esquemaDeCores.primary,
-          unselectedItemColor: Colors.green.shade900.withOpacity(0.55),
+          unselectedItemColor: Colors.green.shade900.withAlpha(140),
           backgroundColor: esquemaDeCores.surface,
           type: BottomNavigationBarType.fixed,
         ),

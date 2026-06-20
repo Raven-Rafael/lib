@@ -70,7 +70,7 @@ class PokemonCard extends StatelessWidget {
     return Card(
       clipBehavior: Clip.antiAlias,
       elevation: 3,
-      shadowColor: primaryTypeColor.withOpacity(0.2),
+      shadowColor: primaryTypeColor.withAlpha(51),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
@@ -89,7 +89,7 @@ class PokemonCard extends StatelessWidget {
               end: Alignment.bottomRight,
               colors: [
                 Colors.white,
-                primaryTypeColor.withOpacity(0.08),
+                primaryTypeColor.withAlpha(20),
               ],
             ),
           ),
@@ -111,7 +111,7 @@ class PokemonCard extends StatelessWidget {
                           height: 80,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: primaryTypeColor.withOpacity(0.08),
+                            color: primaryTypeColor.withAlpha(20),
                           ),
                         ),
                       ),
@@ -124,7 +124,7 @@ class PokemonCard extends StatelessWidget {
                             vertical: 2,
                           ),
                           decoration: BoxDecoration(
-                            color: primaryTypeColor.withOpacity(0.12),
+                            color: primaryTypeColor.withAlpha(31),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(
@@ -132,7 +132,7 @@ class PokemonCard extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 11,
                               fontWeight: FontWeight.bold,
-                              color: primaryTypeColor.shade800,
+                              color: primaryTypeColor,
                             ),
                           ),
                         ),

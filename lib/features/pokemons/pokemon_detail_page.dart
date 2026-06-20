@@ -78,7 +78,7 @@ class PokemonDetailPage extends StatelessWidget {
         : Colors.green;
 
     return Scaffold(
-      backgroundColor: primaryTypeColor.withOpacity(0.05),
+      backgroundColor: primaryTypeColor.withAlpha(13),
       appBar: AppBar(
         backgroundColor: primaryTypeColor,
         foregroundColor: Colors.white,
@@ -96,7 +96,7 @@ class PokemonDetailPage extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w900,
-                  color: Colors.white87,
+                  color: Colors.white70,
                 ),
               ),
             ),
@@ -117,7 +117,7 @@ class PokemonDetailPage extends StatelessWidget {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: primaryTypeColor.withOpacity(0.3),
+                    color: primaryTypeColor.withAlpha(77),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -132,7 +132,7 @@ class PokemonDetailPage extends StatelessWidget {
                       height: 220,
                       width: 220,
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.15),
+                        color: Colors.white.withAlpha(38),
                         shape: BoxShape.circle,
                       ),
                       padding: const EdgeInsets.all(12),
@@ -278,7 +278,7 @@ class PokemonDetailPage extends StatelessWidget {
           label,
           style: const TextStyle(
             fontSize: 12,
-            color: Colors.black55,
+            color: Colors.black54,
             fontWeight: FontWeight.w500,
           ),
         ),
