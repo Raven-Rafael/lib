@@ -78,7 +78,7 @@ class PokemonDetailPage extends StatelessWidget {
         : Colors.green;
 
     return Scaffold(
-      backgroundColor: primaryTypeColor.withOpacity(0.05),
+      backgroundColor: primaryTypeColor.withValues(alpha: 0.05),
       appBar: AppBar(
         backgroundColor: primaryTypeColor,
         foregroundColor: Colors.white,
@@ -117,7 +117,7 @@ class PokemonDetailPage extends StatelessWidget {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: primaryTypeColor.withOpacity(0.3),
+                    color: primaryTypeColor.withValues(alpha: 0.3),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -132,7 +132,7 @@ class PokemonDetailPage extends StatelessWidget {
                       height: 220,
                       width: 220,
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.15),
+                        color: Colors.white.withValues(alpha: 0.15),
                         shape: BoxShape.circle,
                       ),
                       padding: const EdgeInsets.all(12),
@@ -140,7 +140,8 @@ class PokemonDetailPage extends StatelessWidget {
                           ? Image.network(
                               pokemon.imageUrl,
                               fit: BoxFit.contain,
-                              loadingBuilder: (context, child, loadingProgress) {
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
                                 if (loadingProgress == null) return child;
                                 return const Center(
                                   child: CircularProgressIndicator(

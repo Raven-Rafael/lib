@@ -70,7 +70,7 @@ class PokemonCard extends StatelessWidget {
     return Card(
       clipBehavior: Clip.antiAlias,
       elevation: 3,
-      shadowColor: primaryTypeColor.withOpacity(0.2),
+      shadowColor: primaryTypeColor.withValues(alpha: 0.2),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
@@ -89,7 +89,7 @@ class PokemonCard extends StatelessWidget {
               end: Alignment.bottomRight,
               colors: [
                 Colors.white,
-                primaryTypeColor.withOpacity(0.08),
+                primaryTypeColor.withValues(alpha: 0.08),
               ],
             ),
           ),
@@ -111,7 +111,7 @@ class PokemonCard extends StatelessWidget {
                           height: 80,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: primaryTypeColor.withOpacity(0.08),
+                            color: primaryTypeColor.withValues(alpha: 0.08),
                           ),
                         ),
                       ),
@@ -124,7 +124,7 @@ class PokemonCard extends StatelessWidget {
                             vertical: 2,
                           ),
                           decoration: BoxDecoration(
-                            color: primaryTypeColor.withOpacity(0.12),
+                            color: primaryTypeColor.withValues(alpha: 0.12),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(
@@ -144,7 +144,8 @@ class PokemonCard extends StatelessWidget {
                             ? Image.network(
                                 pokemon.imageUrl,
                                 fit: BoxFit.contain,
-                                loadingBuilder: (context, child, loadingProgress) {
+                                loadingBuilder:
+                                    (context, child, loadingProgress) {
                                   if (loadingProgress == null) return child;
                                   return const Center(
                                     child: SizedBox(
