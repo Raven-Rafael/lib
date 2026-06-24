@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:yasmin/l10n/app_localizations.dart';
 
 import 'app_routes.dart';
 
-// Gerenciador global simples para o tema da aplicação
-final ValueNotifier<ThemeMode> appThemeNotifier = ValueNotifier(ThemeMode.light);
+// Variável global para controlar o estado do tema em todo o aplicativo
+final ValueNotifier<ThemeMode> appThemeNotifier = ValueNotifier(ThemeMode.system);
+
+// Variável global para controlar os tipos de pokémon selecionados nos filtros
+final ValueNotifier<Set<String>> selectedTypesNotifier = ValueNotifier({});
 
 class AppWidget extends StatelessWidget {
   final Map<String, WidgetBuilder> _rotas;
@@ -28,6 +32,8 @@ class AppWidget extends StatelessWidget {
         return MaterialApp(
           title: 'Pokédex',
           debugShowCheckedModeBanner: false,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
           themeMode: currentMode,
           theme: ThemeData(
             colorScheme: esquemaDeCoresLight,
@@ -69,10 +75,10 @@ class AppWidget extends StatelessWidget {
               centerTitle: true,
               elevation: 2,
             ),
-            bottomNavigationBarTheme: BottomNavigationBarThemeData(
+            bottomNavigationBarTheme: const BottomNavigationBarThemeData(
               selectedItemColor: Colors.greenAccent,
               unselectedItemColor: Colors.white54,
-              backgroundColor: const Color(0xFF1E1E1E),
+              backgroundColor: Color(0xFF1E1E1E),
               type: BottomNavigationBarType.fixed,
             ),
             elevatedButtonTheme: ElevatedButtonThemeData(

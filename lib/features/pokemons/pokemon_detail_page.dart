@@ -1,8 +1,51 @@
 import 'package:flutter/material.dart';
 import '../../shared/models/pokemon.dart';
+import 'package:yasmin/l10n/app_localizations.dart';
+import '../../shared/services/favorites_service.dart';
 
-class PokemonDetailPage extends StatelessWidget {
+class PokemonDetailPage extends StatefulWidget {
   const PokemonDetailPage({super.key});
+
+  @override
+  State<PokemonDetailPage> createState() => _PokemonDetailPageState();
+}
+
+class _PokemonDetailPageState extends State<PokemonDetailPage> {
+  final FavoritesService _favoritesService = FavoritesService();
+  bool _isFavorite = false;
+  bool _hasLoaded = false;
+  Pokemon? _pokemon;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_hasLoaded) {
+      _pokemon = ModalRoute.of(context)?.settings.arguments as Pokemon?;
+      if (_pokemon != null) {
+        _loadFavoriteStatus();
+      }
+      _hasLoaded = true;
+    }
+  }
+
+  Future<void> _loadFavoriteStatus() async {
+    if (_pokemon == null) return;
+    final isFav = await _favoritesService.isFavorite(_pokemon!.id);
+    if (mounted) {
+      setState(() {
+        _isFavorite = isFav;
+      });
+    }
+  }
+
+  Future<void> _toggleFavorite() async {
+    if (_pokemon == null) return;
+    // UI First update
+    setState(() {
+      _isFavorite = !_isFavorite;
+    });
+    await _favoritesService.toggleFavorite(_pokemon!.id);
+  }
 
   /// Retorna a cor característica do tipo de Pokémon para tematização visual.
   Color _getTypeColor(String type) {
@@ -54,24 +97,45 @@ class PokemonDetailPage extends StatelessWidget {
     return text[0].toUpperCase() + text.substring(1);
   }
 
+  String _getTranslatedType(BuildContext context, String type) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (type.toLowerCase()) {
+      case 'grass': return l10n.typeGrass;
+      case 'fire': return l10n.typeFire;
+      case 'water': return l10n.typeWater;
+      case 'bug': return l10n.typeBug;
+      case 'normal': return l10n.typeNormal;
+      case 'poison': return l10n.typePoison;
+      case 'electric': return l10n.typeElectric;
+      case 'ground': return l10n.typeGround;
+      case 'fairy': return l10n.typeFairy;
+      case 'fighting': return l10n.typeFighting;
+      case 'psychic': return l10n.typePsychic;
+      case 'rock': return l10n.typeRock;
+      case 'ghost': return l10n.typeGhost;
+      case 'ice': return l10n.typeIce;
+      case 'dragon': return l10n.typeDragon;
+      default: return _capitalize(type);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final pokemon = ModalRoute.of(context)?.settings.arguments as Pokemon?;
-
-    if (pokemon == null) {
+    if (_pokemon == null) {
       return Scaffold(
         appBar: AppBar(
-          title: const Text('Detalhes'),
+          title: Text(AppLocalizations.of(context)!.detailsTitle),
         ),
-        body: const Center(
+        body: Center(
           child: Text(
-            'Nenhum Pokémon selecionado.',
-            style: TextStyle(fontSize: 16),
+            AppLocalizations.of(context)!.noPokemon,
+            style: const TextStyle(fontSize: 16),
           ),
         ),
       );
     }
 
+    final pokemon = _pokemon!;
     final String formattedId = '#${pokemon.id.toString().padLeft(3, '0')}';
     final Color primaryTypeColor = pokemon.types.isNotEmpty
         ? _getTypeColor(pokemon.types.first)
@@ -93,8 +157,15 @@ class PokemonDetailPage extends StatelessWidget {
         ),
         centerTitle: true,
         actions: [
+          IconButton(
+            icon: Icon(
+              _isFavorite ? Icons.favorite : Icons.favorite_border,
+              color: _isFavorite ? Colors.redAccent : Colors.white70,
+            ),
+            onPressed: _toggleFavorite,
+          ),
           Padding(
-            padding: const EdgeInsets.only(right: 16),
+            padding: const EdgeInsets.only(right: 16, left: 8),
             child: Center(
               child: Text(
                 formattedId,
@@ -212,7 +283,7 @@ class PokemonDetailPage extends StatelessWidget {
                       const Divider(),
                       const SizedBox(height: 16),
                       Text(
-                        'Tipos',
+                        AppLocalizations.of(context)!.types,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -235,11 +306,11 @@ class PokemonDetailPage extends StatelessWidget {
                             ),
                             side: BorderSide.none,
                             label: Text(
-                              _capitalize(type),
+                              _getTranslatedType(context, type),
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 13,
+                                fontSize: 14,
                               ),
                             ),
                           );
@@ -249,7 +320,7 @@ class PokemonDetailPage extends StatelessWidget {
                       const Divider(),
                       const SizedBox(height: 16),
                       Text(
-                        'Características Gerais',
+                        AppLocalizations.of(context)!.generalCharacteristics,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -260,8 +331,8 @@ class PokemonDetailPage extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          _buildStatItem('Geração', '1ª Geração', context),
-                          _buildStatItem('Região de Origem', 'Kanto', context),
+                          _buildStatItem(AppLocalizations.of(context)!.generation, '1ª Geração', context),
+                          _buildStatItem(AppLocalizations.of(context)!.originRegion, 'Kanto', context),
                         ],
                       ),
                     ],

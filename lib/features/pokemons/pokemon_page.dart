@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../shared/models/pokemon.dart';
+import 'package:yasmin/l10n/app_localizations.dart';
+import '../../app/app_widget.dart';
 import '../../shared/services/pokemon_service.dart';
 import 'components/pokemon_card.dart';
 
@@ -37,7 +39,7 @@ class _PokemonPageState extends State<PokemonPage> {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'Carregando Pokédex...',
+                  AppLocalizations.of(context)!.loading,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -87,7 +89,7 @@ class _PokemonPageState extends State<PokemonPage> {
                       });
                     },
                     icon: const Icon(Icons.refresh),
-                    label: const Text('Tentar Novamente'),
+                    label: Text(AppLocalizations.of(context)!.tryAgain),
                   ),
                 ],
               ),
@@ -96,7 +98,7 @@ class _PokemonPageState extends State<PokemonPage> {
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return Center(
             child: Text(
-              'Nenhum Pokémon encontrado.',
+              AppLocalizations.of(context)!.noPokemon,
               style: TextStyle(
                 fontSize: 16,
                 color: Theme.of(context).brightness == Brightness.dark 
@@ -107,20 +109,43 @@ class _PokemonPageState extends State<PokemonPage> {
           );
         }
 
-        final pokemons = snapshot.data!;
+        final allPokemons = snapshot.data!;
 
-        return GridView.builder(
-          padding: const EdgeInsets.all(12),
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 200,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            childAspectRatio: 0.82,
-          ),
-          itemCount: pokemons.length,
-          itemBuilder: (context, index) {
-            final pokemon = pokemons[index];
-            return PokemonCard(pokemon: pokemon);
+        return ValueListenableBuilder<Set<String>>(
+          valueListenable: selectedTypesNotifier,
+          builder: (context, selectedTypes, _) {
+            final pokemons = selectedTypes.isEmpty 
+                ? allPokemons 
+                : allPokemons.where((p) => p.types.any((t) => selectedTypes.contains(t.toLowerCase()))).toList();
+
+            if (pokemons.isEmpty) {
+              return Center(
+                child: Text(
+                  'Nenhum Pokémon encontrado.',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Theme.of(context).brightness == Brightness.dark 
+                        ? Colors.white 
+                        : Colors.green.shade800,
+                  ),
+                ),
+              );
+            }
+
+            return GridView.builder(
+              padding: const EdgeInsets.all(12),
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 200,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: 0.82,
+              ),
+              itemCount: pokemons.length,
+              itemBuilder: (context, index) {
+                final pokemon = pokemons[index];
+                return PokemonCard(pokemon: pokemon);
+              },
+            );
           },
         );
       },

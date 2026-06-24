@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../app/app_widget.dart';
-
+import 'package:yasmin/l10n/app_localizations.dart';
 class PerfilPage extends StatefulWidget {
   const PerfilPage({super.key});
 
@@ -82,7 +81,7 @@ class _PerfilPageState extends State<PerfilPage> {
                     ListTile(
                       leading: Icon(Icons.badge, color: iconColor),
                       title: Text(
-                        'RA / Matrícula',
+                        AppLocalizations.of(context)!.raMatricula,
                         style: TextStyle(fontWeight: FontWeight.bold, color: textColor),
                       ),
                       subtitle: Text('123456789', style: TextStyle(color: subTextColor)),
@@ -91,47 +90,15 @@ class _PerfilPageState extends State<PerfilPage> {
                     ListTile(
                       leading: Icon(Icons.school, color: iconColor),
                       title: Text(
-                        'Curso',
+                        AppLocalizations.of(context)!.course,
                         style: TextStyle(fontWeight: FontWeight.bold, color: textColor),
                       ),
-                      subtitle: Text('Treinamento Avançado Pokémon', style: TextStyle(color: subTextColor)),
+                      subtitle: Text(AppLocalizations.of(context)!.advancedTraining, style: TextStyle(color: subTextColor)),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 24),
-              
-              // 3. Switch de Preferências (Tema Escuro)
-              Card(
-                elevation: 2,
-                color: cardColor,
-                shadowColor: Colors.green.withAlpha(isDark ? 0 : 40),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: ValueListenableBuilder<ThemeMode>(
-                  valueListenable: appThemeNotifier,
-                  builder: (context, currentMode, _) {
-                    // Determina o estado do switch independentemente de já ter rebuildado o layout
-                    final bool switchState = currentMode == ThemeMode.dark || 
-                        (currentMode == ThemeMode.system && isDark);
-                        
-                    return SwitchListTile(
-                      activeColor: Colors.greenAccent,
-                      title: Text(
-                        'Tema Escuro',
-                        style: TextStyle(fontWeight: FontWeight.bold, color: textColor),
-                      ),
-                      subtitle: Text('Alternar modo claro e escuro', style: TextStyle(color: subTextColor)),
-                      secondary: Icon(Icons.dark_mode, color: iconColor),
-                      value: switchState,
-                      onChanged: (bool value) {
-                        appThemeNotifier.value = value ? ThemeMode.dark : ThemeMode.light;
-                      },
-                    );
-                  },
-                ),
-              ),
+
             ],
           ),
         ),

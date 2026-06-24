@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../shared/models/pokemon.dart';
 import '../../../app/app_routes.dart';
+import 'package:yasmin/l10n/app_localizations.dart';
 
 class PokemonCard extends StatelessWidget {
   final Pokemon pokemon;
@@ -58,6 +59,28 @@ class PokemonCard extends StatelessWidget {
   String _capitalize(String text) {
     if (text.isEmpty) return text;
     return text[0].toUpperCase() + text.substring(1);
+  }
+
+  String _getTranslatedType(BuildContext context, String type) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (type.toLowerCase()) {
+      case 'grass': return l10n.typeGrass;
+      case 'fire': return l10n.typeFire;
+      case 'water': return l10n.typeWater;
+      case 'bug': return l10n.typeBug;
+      case 'normal': return l10n.typeNormal;
+      case 'poison': return l10n.typePoison;
+      case 'electric': return l10n.typeElectric;
+      case 'ground': return l10n.typeGround;
+      case 'fairy': return l10n.typeFairy;
+      case 'fighting': return l10n.typeFighting;
+      case 'psychic': return l10n.typePsychic;
+      case 'rock': return l10n.typeRock;
+      case 'ghost': return l10n.typeGhost;
+      case 'ice': return l10n.typeIce;
+      case 'dragon': return l10n.typeDragon;
+      default: return _capitalize(type);
+    }
   }
 
   @override
@@ -194,9 +217,9 @@ class PokemonCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Text(
-                        _capitalize(type),
+                        _getTranslatedType(context, type),
                         style: const TextStyle(
-                          fontSize: 12,
+                          fontSize: 9,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
