@@ -23,7 +23,8 @@ class Pokemon {
       id: json['id'],
       name: json['name'],
       // Aqui pegamos a arte oficial em alta definição
-      imageUrl: json['sprites']['other']['official-artwork']['front_default'] ?? '',
+      imageUrl:
+          json['sprites']['other']['official-artwork']['front_default'] ?? '',
       types: typeList,
     );
   }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-
+import 'package:yasmin/l10n/app_localizations.dart';
 import '../perfil/perfil_page.dart';
 import '../pokemons/pokemon_page.dart';
+import '../pokemons/components/pokemon_drawer.dart';
 import 'widget/home_bottom_navigation.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,10 +20,7 @@ class _HomePageState extends State<HomePage> {
     PerfilPage(),
   ];
 
-  final List<String> _titulos = const [
-    'Pokémons',
-    'Perfil',
-  ];
+
 
   void _alterarPagina(int novoIndice) {
     setState(() {
@@ -32,13 +30,19 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final titulos = [
+      AppLocalizations.of(context)!.pokedexTitle,
+      AppLocalizations.of(context)!.profileTitle,
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          _titulos[_indiceSelecionado],
+          titulos[_indiceSelecionado],
           style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
         ),
       ),
+      drawer: const PokemonDrawer(),
       body: IndexedStack(
         index: _indiceSelecionado,
         children: _paginas,
